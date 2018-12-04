@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>322</width>
-    <height>191</height>
+    <width>291</width>
+    <height>482</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="pushButton_start">
+  <widget class="QPushButton" name="with_start">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>100</y>
-     <width>91</width>
+     <x>20</x>
+     <y>210</y>
+     <width>121</width>
      <height>31</height>
     </rect>
    </property>
@@ -35,12 +35,12 @@
     <string>Start</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_return">
+  <widget class="QPushButton" name="with_return">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>140</y>
-     <width>91</width>
+     <x>150</x>
+     <y>210</y>
+     <width>121</width>
      <height>31</height>
     </rect>
    </property>
@@ -56,22 +56,87 @@
     <string>Return</string>
    </property>
   </widget>
-  <widget class="QWidget" name="horizontalLayoutWidget">
+  <widget class="QLabel" name="label_results_window">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>30</y>
-     <width>281</width>
-     <height>41</height>
+     <y>260</y>
+     <width>91</width>
+     <height>16</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="HLayout">
-    <item>
+   <property name="font">
+    <font>
+     <family>微軟正黑體</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string> 輸出結果 :</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_button">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>190</y>
+     <width>91</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微軟正黑體</family>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string> 點擊按鈕 :</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="listWidget_results_window">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>280</y>
+     <width>251</width>
+     <height>181</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QWidget" name="formLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>40</y>
+     <width>251</width>
+     <height>134</height>
+    </rect>
+   </property>
+   <layout class="QFormLayout" name="form_3d">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_x">
+      <property name="font">
+       <font>
+        <family>微軟正黑體</family>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string> X (mm)</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
      <widget class="QDoubleSpinBox" name="value_y">
       <property name="font">
        <font>
         <family>微軟正黑體</family>
-        <pointsize>10</pointsize>
+        <pointsize>20</pointsize>
        </font>
       </property>
       <property name="cursor">
@@ -114,36 +179,37 @@
        <double>200.000000000000000</double>
       </property>
       <property name="singleStep">
-       <double>0.100000000000000</double>
+       <double>1.000000000000000</double>
       </property>
      </widget>
     </item>
-    <item>
-     <widget class="QDoubleSpinBox" name="value_x">
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_z">
       <property name="font">
        <font>
         <family>微軟正黑體</family>
-        <pointsize>10</pointsize>
+        <pointsize>16</pointsize>
        </font>
       </property>
-      <property name="suffix">
-       <string/>
-      </property>
-      <property name="decimals">
-       <number>1</number>
-      </property>
-      <property name="minimum">
-       <double>-200.000000000000000</double>
-      </property>
-      <property name="maximum">
-       <double>200.000000000000000</double>
-      </property>
-      <property name="singleStep">
-       <double>0.100000000000000</double>
+      <property name="text">
+       <string> Z (mm)</string>
       </property>
      </widget>
     </item>
-    <item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_y">
+      <property name="font">
+       <font>
+        <family>微軟正黑體</family>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string> Y (mm)</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
      <widget class="QDoubleSpinBox" name="value_z">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -154,7 +220,7 @@
       <property name="font">
        <font>
         <family>微軟正黑體</family>
-        <pointsize>10</pointsize>
+        <pointsize>20</pointsize>
        </font>
       </property>
       <property name="toolTip">
@@ -173,80 +239,45 @@
        <double>-100.000000000000000</double>
       </property>
       <property name="singleStep">
-       <double>0.100000000000000</double>
+       <double>1.000000000000000</double>
       </property>
       <property name="value">
        <double>0.000000000000000</double>
       </property>
      </widget>
     </item>
+    <item row="0" column="1">
+     <widget class="QDoubleSpinBox" name="value_x">
+      <property name="font">
+       <font>
+        <family>微軟正黑體</family>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="suffix">
+       <string/>
+      </property>
+      <property name="decimals">
+       <number>1</number>
+      </property>
+      <property name="minimum">
+       <double>-200.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>200.000000000000000</double>
+      </property>
+      <property name="singleStep">
+       <double>1.000000000000000</double>
+      </property>
+     </widget>
+    </item>
    </layout>
-   <zorder>value_y</zorder>
-   <zorder>value_z</zorder>
-   <zorder>value_x</zorder>
   </widget>
-  <widget class="QLabel" name="label_x">
+  <widget class="QLabel" name="label_3d">
    <property name="geometry">
     <rect>
      <x>20</x>
      <y>20</y>
-     <width>47</width>
-     <height>12</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>微軟正黑體</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string> X (mm)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_y">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>20</y>
-     <width>47</width>
-     <height>12</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>微軟正黑體</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Y (mm)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_z">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>20</y>
-     <width>47</width>
-     <height>12</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>微軟正黑體</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string> Z (mm)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_results_window">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>80</y>
      <width>91</width>
      <height>16</height>
     </rect>
@@ -254,49 +285,19 @@
    <property name="font">
     <font>
      <family>微軟正黑體</family>
-     <pointsize>10</pointsize>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
    </property>
    <property name="text">
-    <string> 輸出結果 :</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_button">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>80</y>
-     <width>91</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>微軟正黑體</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string> 點擊按鈕 :</string>
-   </property>
-  </widget>
-  <widget class="QListWidget" name="listWidget_results_window">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>100</y>
-     <width>181</width>
-     <height>71</height>
-    </rect>
+    <string>移動座標 :</string>
    </property>
   </widget>
  </widget>
  <tabstops>
-  <tabstop>value_y</tabstop>
-  <tabstop>value_x</tabstop>
-  <tabstop>value_z</tabstop>
-  <tabstop>pushButton_start</tabstop>
-  <tabstop>pushButton_return</tabstop>
+  <tabstop>with_start</tabstop>
+  <tabstop>with_return</tabstop>
  </tabstops>
  <resources/>
  <connections/>
