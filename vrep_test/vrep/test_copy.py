@@ -54,8 +54,8 @@ def walk_with(dx, dy, dz, clientID, handle):
         print('StepMotor_Z :', round(cz, 4), 'deg')
         set_pos(x + fx, y + fy, z + fz, clientID, handle)
         #self.translateShow.addItem("(X: {:.04f},Y: {:.04f},Z: {:.04f})".format(a2z, b2z, c2z))
-    
-
+        
+        
 def m_path(number, clientID, Cub1_handle):
     #每10單位,距離走0.15
     step = 0

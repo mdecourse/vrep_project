@@ -4,10 +4,11 @@ from math import sqrt, pi
 from PyQt5.QtCore import QThread
 from PyQt5.QtWidgets import QDialog, QApplication
 from VT_v01 import Ui_Form
+import gcodeParser
 import vrep
 
 #from PyQt5.QtGui import *
-#from PyQt5.QtWidgets import *
+
 
 
 class readingGcode(QThread):
@@ -44,7 +45,9 @@ class vrepsetting(QDialog):
     def init_form(self): 
         self.openGcodeFile.clicked.connect(self.__open_file__)
         self.with_start.clicked.connect(self.test)
+        self.print.clicked.connect(self.btnstate)
     
+
     def test(self):
         print(test)
         self.listWidget_results_window.addItem("123test")
