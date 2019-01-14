@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(591, 241)
+        Form.resize(604, 287)
         self.with_start = QtWidgets.QPushButton(Form)
         self.with_start.setGeometry(QtCore.QRect(400, 20, 81, 31))
         font = QtGui.QFont()
@@ -159,6 +159,18 @@ class Ui_Form(object):
         self.print = QtWidgets.QPushButton(Form)
         self.print.setGeometry(QtCore.QRect(240, 20, 31, 31))
         self.print.setObjectName("print")
+        self.horizontalLayoutWidget = QtWidgets.QWidget(Form)
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(30, 230, 241, 51))
+        self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.str_rdbtn = QtWidgets.QRadioButton(self.horizontalLayoutWidget)
+        self.str_rdbtn.setObjectName("str_rdbtn")
+        self.horizontalLayout.addWidget(self.str_rdbtn)
+        self.stop_rdbtn = QtWidgets.QRadioButton(self.horizontalLayoutWidget)
+        self.stop_rdbtn.setObjectName("stop_rdbtn")
+        self.horizontalLayout.addWidget(self.stop_rdbtn)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -178,6 +190,8 @@ class Ui_Form(object):
         self.label_3d.setText(_translate("Form", "移動座標 :"))
         self.label_ItemName.setText(_translate("Form", "物件名稱 :"))
         self.print.setText(_translate("Form", "Print"))
+        self.str_rdbtn.setText(_translate("Form", "Start"))
+        self.stop_rdbtn.setText(_translate("Form", "Stop"))
 
 
 if __name__ == "__main__":
