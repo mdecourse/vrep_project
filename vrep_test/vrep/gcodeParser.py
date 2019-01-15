@@ -3,10 +3,8 @@
 import math
 
 class GcodeParser:
-	
 	def __init__(self):
 		self.model = GcodeModel(self)
-
 
 	def parseFile(self, path):
 		if path:
@@ -22,7 +20,6 @@ class GcodeParser:
 					self.parseLine()
 				self.model.postProcess()
 				return self.model
-		
 
 	def parseLine(self):
 		# strip comments:
@@ -97,8 +94,8 @@ class GcodeParser:
 		print("[ERROR] Line %d: %s (Text:'%s')" % (self.lineNb, msg, self.line))
 		raise Exception("[ERROR] Line %d: %s (Text:'%s')" % (self.lineNb, msg, self.line))
 
+
 class BBox(object):
-	
 	def __init__(self, coords):
 		self.xmin = self.xmax = coords["X"]
 		self.ymin = self.ymax = coords["Y"]
@@ -129,9 +126,8 @@ class BBox(object):
 		self.ymax = max(self.ymax, coords["Y"])
 		self.zmin = min(self.zmin, coords["Z"])
 		self.zmax = max(self.zmax, coords["Z"])
-		
+
 class GcodeModel:
-	
 	def __init__(self, parser):
 		# save parser for messages
 		self.parser = parser
@@ -400,7 +396,6 @@ class Layer:
 		
 if __name__ == '__main__':
 	path = "test_gcode.gcode"
-
 	parser = GcodeParser()
 	model = parser.parseFile(path)
     #print(model)

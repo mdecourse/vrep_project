@@ -1,8 +1,10 @@
-from vrep.VT_v01 import init_Form
+# -*- coding: utf-8 -*-
+
+from vrep.VT_v01 import ControlPanel
 from PyQt5.QtWidgets import QApplication
 
-if __name__ == '__main__' :
+if __name__ == '__main__':
     app = QApplication([])
-    run = init_Form()
+    run = ControlPanel()
     run.show()
     exit(app.exec_())
