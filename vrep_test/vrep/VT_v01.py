@@ -22,7 +22,6 @@ def _no_error(func):
             if r != vrep.simx_return_ok:
                 raise ValueError("not ok")
             return None
-
     return check_func
 
 
@@ -46,46 +45,42 @@ class ControlPanel(QDialog, Ui_Dialog):
 
     @pyqtSlot(name='on_print_clicked')
     def print_go(self):
-        print('OK!!!')
-        self.listWidget_results_window.addItem("123test123")
+        print('[INFO] print object OK!!!')
+        self.listWidget_results_window.addItem(f'[INFO] Select object: {self.lineEdit.text()}')
 
     @pyqtSlot(name='on_with_start_clicked')
     def with_go(self):
         def do(dx, dy, dz):
             d = sqrt(dx * dx + dy * dy + dz * dz)
-            handle, handle_value = vrep.simxGetObjectHandle(CLIENT_ID, "box", vrep.simx_opmode_oneshot_wait)
             if d == 0:
-                return
-
+                return self.listWidget_results_window.addItem('[WARN] Please set value!!')
+            handle, handle_value = vrep.simxGetObjectHandle(CLIENT_ID,
+                                                            self.lineEdit.text(),
+                                                            vrep.simx_opmode_oneshot_wait
+                                                            )
+            step = 0.01
+            ds = d // step
             # 移動量
-            tx = dx / d
-            ty = dy / d
-            tz = dz / d
+            tx = dx / ds
+            ty = dy / ds
+            tz = dz / ds
 
             # EX. 馬達脈波:  移動量(mm) / 馬達單圈移動量(mm) x 360(deg) / 步數(step)
             # EX. conversion = 1000 / (12 * pi) * (360 / 200)
-            conversion = 1000 / (12 * 12 * pi) * 360
-            cx = dx * conversion
-            cy = dy * conversion
-            cz = dz * conversion
-            # EX. 單步移動量step = 12 * 0.001 * pi / 200(step)
-            step = 0.01
-            ds = d // step
-            # 補正誤差值
-            fx = dx % step
-            fy = dy % step
-            fz = dz % step
+            #Hconversion = 1000 * (12 * pi) * 360
+            #Vconversion = 1000 * (47 * pi) * 360
+            cx = dx * 90
+            cy = dy * 90
+            cz = dz * 90
 
             for _ in range(int(ds)):
                 x, y, z = get_pos(handle_value)
-                set_pos(x + tx * step, y + ty * step, z + tz * step, handle_value)
-
+                set_pos(x + tx, y + ty, z + tz, handle_value)
             x, y, z = get_pos(handle_value)
-            print(f'StepMotor_X: {cx:.04f} deg')
-            print(f'StepMotor_Y: {cy:.04f} deg')
-            print(f'StepMotor_Z: {cz:.04f} deg')
-            set_pos(x + fx, y + fy, z + fz, handle_value)
-            self.listWidget_results_window.addItem(f"(X: {x + fx:.04f}, Y: {y + fy:.04f}, Z: {z + fz:.04f})")
+            print(f'[INFO] StepMotor_X: {cx:.01f} deg')
+            print(f'[INFO] StepMotor_Y: {cy:.01f} deg')
+            print(f'[INFO] StepMotor_Z: {cz:.01f} deg')
+            self.listWidget_results_window.addItem(f"[INFO] X: {x:.04f}, Y: {y:.04f}, Z: {z:.04f}")
 
         thread = Thread(target=do, args=(self.value_x.value(), self.value_y.value(), self.value_z.value()))
         thread.start()
