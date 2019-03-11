@@ -293,7 +293,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="with_return">
+        <widget class="QPushButton" name="with_open">
          <property name="font">
           <font>
            <family>微軟正黑體</family>
@@ -303,7 +303,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Return</string>
+          <string>Open</string>
          </property>
         </widget>
        </item>

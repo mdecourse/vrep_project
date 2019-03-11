@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from typing import Tuple
-from math import sqrt, pi
+from math import sqrt
 from threading import Thread
-from PyQt5.QtCore import pyqtSlot, QThread
-from PyQt5.QtWidgets import QDialog
+from PyQt5.QtCore import pyqtSlot, QThread, QMutexLocker
+from PyQt5.QtWidgets import *
 from . import vrep
 from .Ui_VT_v01 import Ui_Dialog
+from .gcodeParser import *
 
 #client_ID = -1
 
@@ -14,12 +15,8 @@ def _no_error(func):
     def check_func(*args):
         r = func(*args)
         if type(r) == tuple:
-            if r[0] != vrep.simx_return_ok:
-                raise ValueError("not ok")
             return r[1]
         else:
-            if r != vrep.simx_return_ok:
-                raise ValueError("not ok")
             return None
     return check_func
 
@@ -56,7 +53,9 @@ class readingGcode(QThread):
                 self.getProgress.setValue(self.getProgress.value() + 1)
 
     def stop(self):
-        with QMutexLocker(self.mutex): self.stoped = True
+        with QMutexLocker(self.mutex): 
+            self.stoped = True
+
 
 class ControlPanel(QDialog, Ui_Dialog):
     def __init__(self):
@@ -69,6 +68,37 @@ class ControlPanel(QDialog, Ui_Dialog):
         print('[INFO] print object OK!!!')
         self.listWidget_results_window.addItem(f'[INFO] Select object: {self.lineEdit.text()}')
 
+    #試寫A.B物件復歸
+    @pyqtSlot(name='on_print_clicked')
+    def print_movehere(self):
+        handle, handle_value = vrep.simxGetObjectHandle(client_ID, 'box', vrep.simx_opmode_oneshot_wait)
+        handle, handle_value2 = vrep.simxGetObjectHandle(client_ID, 'box0', vrep.simx_opmode_oneshot_wait)
+        x1, y1, z1 = get_pos(handle_value)
+        x2, y2, z2 = get_pos(handle_value2)
+        def do(dx, dy, dz):
+            d = sqrt(dx * dx + dy * dy + dz * dz)
+            if d == 0:
+                return self.listWidget_results_window.addItem('[WARN] Please set value!!')
+            step = 0.01
+            ds = d // step                 
+            # 移動量
+            tx = dx / ds
+            ty = dy / ds
+            tz = dz / ds
+            for _ in range(int(ds)):
+                x, y, z = get_pos(handle_value)
+                set_pos(x + tx, y + ty, z + tz, handle_value)
+            x, y, z = get_pos(handle_value)
+            fx = dx % ds
+            fy = dy % ds
+            fz = dz % ds
+            set_pos(x + fx, y + fy, z + fz, handle_value)
+            x, y, z = get_pos(handle_value)
+            self.listWidget_results_window.addItem(f"[INFO] X: {x:.04f}, Y: {y:.04f}, Z: {z:.04f}")
+            self.listWidget_results_window.addItem(f"[INFO] X: {x2:.04f}, Y: {y2:.04f}, Z: {z2:.04f}")
+        thread = Thread(target=do, args=(x2 - x1, y2 - y1, z2 - z1))
+        thread.start()
+
     @pyqtSlot(name='on_with_start_clicked')
     def with_go(self):
         def do(dx, dy, dz):
@@ -78,7 +108,7 @@ class ControlPanel(QDialog, Ui_Dialog):
             handle, handle_value = vrep.simxGetObjectHandle(client_ID,
                                                             self.lineEdit.text(),
                                                             vrep.simx_opmode_oneshot_wait
-                                                            )
+            )
             step = 0.01
             ds = d // step
             # 移動量
@@ -103,6 +133,53 @@ class ControlPanel(QDialog, Ui_Dialog):
             self.listWidget_results_window.addItem(f"[INFO] X: {x:.04f}, Y: {y:.04f}, Z: {z:.04f}")
         thread = Thread(target=do, args=(self.value_x.value(), self.value_y.value(), self.value_z.value()))
         thread.start()
+
+    @pyqtSlot(name='on_with_open_clicked')
+    def __open_file__(self):
+        filename, _ = QFileDialog.getOpenFileName(self, "Open Files", 'gcode', 'GCode(*.gcode)')  #title,path,filename
+        if filename:
+            parser = GcodeParser()
+            self.model = parser.parseFile(filename)
+            print("Done! %s" % self.model)
+
+            self.renderVertices()
+            get = []
+            for i in range(len(self.layer_vertices)):
+                x, y, z = self.parsePostion(i)
+                get = str(x), str(y), str(z)
+                self.listWidget_results_window.addItem(str(get))
+                self.sendPoisiontoVrep(x, y, z)
+                # print(x, y, z)
+        else:
+            print("No file")
+
+    def sendPoisiontoVrep(self, e, r, t):
+
+        vrep.simxFinish(-1)
+        clientID = vrep.simxStart('127.0.0.1', 19998, True, True, 5000, 5)
+        if clientID!= -1:
+            time.sleep(0.5)
+            errorCode,plate=vrep.simxGetObjectHandle(clientID,'plate',vrep.simx_opmode_oneshot_wait)
+
+
+            if errorCode == -1:
+                sys.exit()
+            errorCode=vrep.simxSetObjectPosition(clientID,plate,-1,
+                                                 [e/1000,r/1000,t/1000+0.1165],
+                                                 vrep.simx_opmode_oneshot_wait
+            )
+        else:
+            print('Connection not successful')
+            sys.exit('Could not connect')
+
+    def renderVertices(self):
+        work = readingGcode(self.progressBar, self.model.layers)
+        work.run()
+        self.layer_vertices = work.layer_vertices
+
+    def parsePostion(self, pos):
+        row = self.layer_vertices[pos]
+        return row[0], row[1], row[2]
 
     def main(self):
         vrep.simxFinish(-1)
