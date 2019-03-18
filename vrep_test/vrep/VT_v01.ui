@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>Dialog</class>
  <widget class="QDialog" name="Dialog">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -115,10 +118,10 @@
           <number>1</number>
          </property>
          <property name="minimum">
-          <double>-200.000000000000000</double>
+          <double>-1000.000000000000000</double>
          </property>
          <property name="maximum">
-          <double>200.000000000000000</double>
+          <double>1000.000000000000000</double>
          </property>
          <property name="singleStep">
           <double>1.000000000000000</double>
@@ -180,10 +183,10 @@
           <number>1</number>
          </property>
          <property name="minimum">
-          <double>-200.000000000000000</double>
+          <double>-1000.000000000000000</double>
          </property>
          <property name="maximum">
-          <double>200.000000000000000</double>
+          <double>1000.000000000000000</double>
          </property>
          <property name="singleStep">
           <double>1.000000000000000</double>
@@ -230,7 +233,10 @@
           <number>1</number>
          </property>
          <property name="minimum">
-          <double>-100.000000000000000</double>
+          <double>-1000.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>1000.000000000000000</double>
          </property>
          <property name="singleStep">
           <double>1.000000000000000</double>

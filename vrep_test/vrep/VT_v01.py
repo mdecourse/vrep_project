@@ -62,67 +62,60 @@ class ControlPanel(QDialog, Ui_Dialog):
         super(ControlPanel, self).__init__()
         self.setupUi(self)
         self.main()
-
+        
+    '''
     @pyqtSlot(name='on_print_clicked')
     def print_go(self):
         print('[INFO] print object OK!!!')
         self.listWidget_results_window.addItem(f'[INFO] Select object: {self.lineEdit.text()}')
-
+    '''
+    
     #試寫A.B物件復歸
     @pyqtSlot(name='on_print_clicked')
     def print_movehere(self):
-        handle, handle_value = vrep.simxGetObjectHandle(client_ID, 'box', vrep.simx_opmode_oneshot_wait)
-        handle, handle_value2 = vrep.simxGetObjectHandle(client_ID, 'box0', vrep.simx_opmode_oneshot_wait)
-        x1, y1, z1 = get_pos(handle_value)
-        x2, y2, z2 = get_pos(handle_value2)
+        dm = 0.001
+        step = 0.005
+        no_, handle_designation = vrep.simxGetObjectHandle(client_ID, self.lineEdit.text(), vrep.simx_opmode_oneshot_wait)
+        no_, handle_reference = vrep.simxGetObjectHandle(client_ID, 'box0', vrep.simx_opmode_oneshot_wait)
+        x1, y1, z1 = get_pos(handle_designation)
+        x2, y2, z2 = get_pos(handle_reference)
         def do(dx, dy, dz):
             d = sqrt(dx * dx + dy * dy + dz * dz)
             if d == 0:
-                return self.listWidget_results_window.addItem('[WARN] Please set value!!')
-            step = 0.01
+                return self.listWidget_results_window.addItem('[INFO] Have arrived at the destination')
             ds = d // step                 
             # 移動量
             tx = dx / ds
             ty = dy / ds
             tz = dz / ds
             for _ in range(int(ds)):
-                x, y, z = get_pos(handle_value)
-                set_pos(x + tx, y + ty, z + tz, handle_value)
-            x, y, z = get_pos(handle_value)
-            fx = dx % ds
-            fy = dy % ds
-            fz = dz % ds
-            set_pos(x + fx, y + fy, z + fz, handle_value)
-            x, y, z = get_pos(handle_value)
-            self.listWidget_results_window.addItem(f"[INFO] X: {x:.04f}, Y: {y:.04f}, Z: {z:.04f}")
-            self.listWidget_results_window.addItem(f"[INFO] X: {x2:.04f}, Y: {y2:.04f}, Z: {z2:.04f}")
+                x, y, z = get_pos(handle_designation)
+                set_pos(x + tx, y + ty, z + tz, handle_designation)
+            x, y, z = get_pos(handle_designation)
+            self.listWidget_results_window.addItem(f"[INFO] X: {x/dm:.01f}, Y: {y/dm:.01f}, Z: {z/dm:.01f}")
         thread = Thread(target=do, args=(x2 - x1, y2 - y1, z2 - z1))
         thread.start()
-
+        
     @pyqtSlot(name='on_with_start_clicked')
     def with_go(self):
+        dm = 0.001
+        step = 0.005
         def do(dx, dy, dz):
             d = sqrt(dx * dx + dy * dy + dz * dz)
             if d == 0:
                 return self.listWidget_results_window.addItem('[WARN] Please set value!!')
-            handle, handle_value = vrep.simxGetObjectHandle(client_ID,
-                                                            self.lineEdit.text(),
-                                                            vrep.simx_opmode_oneshot_wait
-            )
-            step = 0.01
+            elif d < step:
+                return self.listWidget_results_window.addItem('[WARN] The value is too small!!')
+            handle, handle_value = vrep.simxGetObjectHandle(client_ID, self.lineEdit.text(), vrep.simx_opmode_oneshot_wait)
             ds = d // step
             # 移動量
             tx = dx / ds
             ty = dy / ds
             tz = dz / ds
             # EX. 馬達脈波:  移動量(mm) / 馬達單圈移動量(mm) x 360(deg) / 步數(step)
-            # EX. conversion = 1000 / (12 * pi) * (360 / 200)
-            #Hconversion = 1000 * (12 * pi) * 360
-            #Vconversion = 1000 * (47 * pi) * 360
             cx = dx * 90
             cy = dy * 90
             cz = dz * 90
-
             for _ in range(int(ds)):
                 x, y, z = get_pos(handle_value)
                 set_pos(x + tx, y + ty, z + tz, handle_value)
@@ -130,8 +123,8 @@ class ControlPanel(QDialog, Ui_Dialog):
             print(f'[INFO] StepMotor_X: {cx:.01f} deg')
             print(f'[INFO] StepMotor_Y: {cy:.01f} deg')
             print(f'[INFO] StepMotor_Z: {cz:.01f} deg')
-            self.listWidget_results_window.addItem(f"[INFO] X: {x:.04f}, Y: {y:.04f}, Z: {z:.04f}")
-        thread = Thread(target=do, args=(self.value_x.value(), self.value_y.value(), self.value_z.value()))
+            self.listWidget_results_window.addItem(f"[INFO] X: {x/dm:.01f}, Y: {y/dm:.01f}, Z: {z/dm:.01f}")
+        thread = Thread(target=do, args=(self.value_x.value() * dm, self.value_y.value() * dm, self.value_z.value() * dm))
         thread.start()
 
     @pyqtSlot(name='on_with_open_clicked')
