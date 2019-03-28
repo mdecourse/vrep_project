@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Y:\tmp\vrep_project\vrep_test\vrep\VT_v01.ui'
+# Form implementation generated from reading ui file 'VT_v01.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.2
 #
