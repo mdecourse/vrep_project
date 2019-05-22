@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>480</width>
+    <width>640</width>
     <height>410</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>480</width>
+    <width>640</width>
     <height>410</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>480</width>
+    <width>640</width>
     <height>410</height>
    </size>
   </property>
@@ -70,7 +70,7 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>245</width>
+            <width>300</width>
             <height>384</height>
            </size>
           </property>
@@ -82,13 +82,13 @@
        <widget class="QTabWidget" name="verticalTabWidget">
         <property name="minimumSize">
          <size>
-          <width>225</width>
+          <width>265</width>
           <height>403</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>225</width>
+          <width>265</width>
           <height>403</height>
          </size>
         </property>
@@ -157,10 +157,16 @@
               </item>
               <item row="1" column="1">
                <widget class="QPushButton" name="click_return">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>25</height>
+                 </size>
+                </property>
                 <property name="maximumSize">
                  <size>
                   <width>100</width>
-                  <height>16777215</height>
+                  <height>25</height>
                  </size>
                 </property>
                 <property name="font">
@@ -242,10 +248,16 @@
               </item>
               <item row="0" column="1">
                <widget class="QPushButton" name="click_start1">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>25</height>
+                 </size>
+                </property>
                 <property name="maximumSize">
                  <size>
                   <width>100</width>
-                  <height>16777215</height>
+                  <height>25</height>
                  </size>
                 </property>
                 <property name="font">
@@ -598,7 +610,7 @@
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
-                  <width>40</width>
+                  <width>35</width>
                   <height>25</height>
                  </size>
                 </property>
@@ -688,7 +700,7 @@
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
-                  <width>5</width>
+                  <width>999</width>
                   <height>0</height>
                  </size>
                 </property>
@@ -704,7 +716,7 @@
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
-                  <width>15</width>
+                  <width>30</width>
                   <height>0</height>
                  </size>
                 </property>
@@ -749,10 +761,16 @@
              </item>
              <item row="0" column="1">
               <widget class="QPushButton" name="click_open">
-               <property name="maximumSize">
+               <property name="minimumSize">
                 <size>
                  <width>100</width>
-                 <height>16777215</height>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>110</width>
+                 <height>25</height>
                 </size>
                </property>
                <property name="font">
@@ -774,10 +792,16 @@
              </item>
              <item row="1" column="0" colspan="2">
               <widget class="QListWidget" name="listWidget">
+               <property name="minimumSize">
+                <size>
+                 <width>220</width>
+                 <height>25</height>
+                </size>
+               </property>
                <property name="maximumSize">
                 <size>
                  <width>190</width>
-                 <height>20</height>
+                 <height>25</height>
                 </size>
                </property>
                <property name="alternatingRowColors">
@@ -805,9 +829,15 @@
              </item>
              <item row="2" column="1">
               <widget class="QLineEdit" name="edit_name2">
-               <property name="maximumSize">
+               <property name="minimumSize">
                 <size>
                  <width>100</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>110</width>
                  <height>16777215</height>
                 </size>
                </property>
@@ -854,9 +884,15 @@
              </item>
              <item row="3" column="1">
               <widget class="QLineEdit" name="edit_name3">
-               <property name="maximumSize">
+               <property name="minimumSize">
                 <size>
                  <width>100</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>110</width>
                  <height>16777215</height>
                 </size>
                </property>
@@ -903,10 +939,16 @@
              </item>
              <item row="4" column="1">
               <widget class="QPushButton" name="click_start2">
-               <property name="maximumSize">
+               <property name="minimumSize">
                 <size>
                  <width>100</width>
-                 <height>16777215</height>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>110</width>
+                 <height>25</height>
                 </size>
                </property>
                <property name="font">
